@@ -63,10 +63,11 @@ jobs:
         run: |
           checkov -d ./infra \
             --framework terraform,kubernetes,cloudformation \
-            --output checkov-report.txt
+            --output json \
+            --output-file checkov-report.json
 
       - name: Upload Checkov Report as Artifact
         uses: actions/upload-artifact@v3
         with:
           name: checkov-reports
-          path: checkov-report.txt
+          path: checkov-report.json
