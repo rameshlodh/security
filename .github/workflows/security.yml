@@ -17,10 +17,12 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Install Semgrep
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: "p/ci"
-          auditOn: "error"
+        run: |
+          pip install semgrep
+
+      - name: Run Semgrep with Auto Config
+        run: |
+          semgrep --config auto
 
   checkov:
     name: Checkov Infrastructure as Code Scan
