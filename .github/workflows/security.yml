@@ -22,7 +22,7 @@ jobs:
 
       - name: Run Semgrep with Metrics Disabled
         run: |
-          semgrep --config auto --metrics=off
+          run: semgrep --config "p/ci"
 
   checkov:
     name: Checkov Infrastructure as Code Scan
