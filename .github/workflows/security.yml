@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      - name: Install Semgrep
+      - name: Install Semgrep and start scan
         uses: returntocorp/semgrep-action@v1
         with:
           config: "p/ci"
