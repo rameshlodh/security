@@ -22,19 +22,19 @@ jobs:
 
       - name: Run Semgrep Security Audit
         env:
-          SEMGREP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
         run: |
           semgrep --config "p/security-audit"
 
       - name: Run Semgrep Secrets Scan
         env:
-          SEMGREP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
         run: |
           semgrep --config "p/secrets"
 
       - name: Run Semgrep CI Scan
         env:
-          SEMGREP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
         run: |
           semgrep --config "p/ci"
 
