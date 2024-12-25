@@ -16,6 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Semgrep Login (if necessary)
+        run: |
+          semgrep login --token ${{ secrets.SEMGREP_TOKEN }}
+
       - name: Run Semgrep Security Audit
         uses: returntocorp/semgrep-action@v1
         with:
