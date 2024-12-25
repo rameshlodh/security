@@ -16,9 +16,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Semgrep
+      - name: Install Semgrep using pip
         run: |
-          curl -sSL https://semgrep.dev/install | bash
+          pip install semgrep
 
       - name: Semgrep Login (if necessary)
         run: |
