@@ -20,9 +20,9 @@ jobs:
         run: |
           pip install semgrep
 
-      - name: Run Semgrep in Specific Directory
+      - name: Run Semgrep with Metrics Disabled
         run: |
-          semgrep --config auto
+          semgrep --config auto --metrics=off
 
   checkov:
     name: Checkov Infrastructure as Code Scan
@@ -37,21 +37,25 @@ jobs:
 
       - name: Run Checkov on Infrastructure Code
         run: |
-          checkov -d . --output cli
+          checkov -d ./infra --framework terraform,kubernetes,cloudformation --output cli
 
   gitleaks:
     name: Gitleaks Secret Scan
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
     
       - name: Install Gitleaks
         run: |
-          curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64.tar.gz | tar -xz
+          curl -sSL -o gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks_linux_amd64.tar.gz
+          tar -xzf gitleaks.tar.gz
           sudo mv gitleaks /usr/local/bin/
+          rm gitleaks.tar.gz
 
-      - name: Run Gitleaks in Specific Directory
+      - name: Run Gitleaks
         run: |
-          gitleaks detect --source=./secrets --config=.gitleaks.toml --report=gitleaks-report.json --no-git
+          gitleaks detect --source=./ --config=.gitleaks.toml --report=gitleaks-report.json --no-git
 
