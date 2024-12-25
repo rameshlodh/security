@@ -24,19 +24,28 @@ jobs:
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
         run: |
-          semgrep --config "p/security-audit"
-
+          semgrep --config "p/security-audit" --output semgrep-security-audit-report.json
+          
       - name: Run Semgrep Secrets Scan
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
         run: |
-          semgrep --config "p/secrets"
-
+          semgrep --config "p/secrets" --output semgrep-secrets-scan-report.json
+          
       - name: Run Semgrep CI Scan
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
         run: |
-          semgrep --config "p/ci"
+          semgrep --config "p/ci" --output semgrep-ci-scan-report.json
+
+      - name: Upload Semgrep Reports as Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: semgrep-reports
+          path: |
+            semgrep-security-audit-report.json
+            semgrep-secrets-scan-report.json
+            semgrep-ci-scan-report.json
 
   checkov:
     name: Checkov Security Scan
@@ -54,4 +63,10 @@ jobs:
         run: |
           checkov -d ./infra \
             --framework terraform,kubernetes,cloudformation \
-            --output cli
+            --output checkov-report.txt
+
+      - name: Upload Checkov Report as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: checkov-reports
+          path: checkov-report.txt
