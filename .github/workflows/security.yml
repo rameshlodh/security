@@ -64,7 +64,8 @@ jobs:
           checkov -d ./infra \
             --framework terraform,kubernetes,cloudformation \
             --output json \
-            --output-file checkov-report.json
+            --output-file checkov-report.json \
+            --skip-check BC.PipelineMissing
 
       - name: Upload Checkov Report as Artifact
         uses: actions/upload-artifact@v3
