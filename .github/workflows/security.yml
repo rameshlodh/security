@@ -15,15 +15,27 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
-      - name: Install Semgrep and start scan
+
+      - name: Run Semgrep Security Audit
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: "p/security-audit"
+          # auditOn: "error"
+
+      - name: Run Semgrep Secrets Scan
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: "p/secrets"
+          # auditOn: "error"
+
+      - name: Run Semgrep CI Scan
         uses: returntocorp/semgrep-action@v1
         with:
           config: "p/ci"
           # auditOn: "error"
 
   checkov:
-    name: Checkov Infrastructure as Code Scan
+    name: Checkov Security Scan
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -36,5 +48,6 @@ jobs:
 
       - name: Run Checkov on Infrastructure Code
         run: |
-          checkov -d ./infra --framework terraform,kubernetes,cloudformation --output cli
-
+          checkov -d ./infra \
+            --framework terraform,kubernetes,cloudformation \
+            --output cli
