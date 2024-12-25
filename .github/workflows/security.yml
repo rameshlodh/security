@@ -20,27 +20,23 @@ jobs:
         run: |
           pip install semgrep
 
-      - name: Set SEMGREP_API_TOKEN Environment Variable
-        run: |
-          echo "SEMGREP_TOKEN=${{ secrets.SEMGREP_TOKEN }}" >> $GITHUB_ENV
-
       - name: Run Semgrep Security Audit
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: "p/security-audit"
-          # auditOn: "error"
+        env:
+          SEMGREP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+        run: |
+          semgrep --config "p/security-audit"
 
       - name: Run Semgrep Secrets Scan
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: "p/secrets"
-          # auditOn: "error"
+        env:
+          SEMGREP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+        run: |
+          semgrep --config "p/secrets"
 
       - name: Run Semgrep CI Scan
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: "p/ci"
-          # auditOn: "error"
+        env:
+          SEMGREP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+        run: |
+          semgrep --config "p/ci"
 
   checkov:
     name: Checkov Security Scan
