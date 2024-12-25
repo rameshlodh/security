@@ -22,7 +22,7 @@ jobs:
 
       - name: Semgrep Login (if necessary)
         run: |
-          semgrep auth login --token ${{ secrets.SEMGREP_TOKEN }}
+          semgrep auth login ${{ secrets.SEMGREP_TOKEN }}
 
       - name: Run Semgrep Security Audit
         uses: returntocorp/semgrep-action@v1
