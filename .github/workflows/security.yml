@@ -20,9 +20,9 @@ jobs:
         run: |
           pip install semgrep
 
-      - name: Semgrep Login (if necessary)
+      - name: Set SEMGREP_API_TOKEN Environment Variable
         run: |
-          semgrep auth login ${{ secrets.SEMGREP_TOKEN }}
+          echo "SEMGREP_TOKEN=${{ secrets.SEMGREP_TOKEN }}" >> $GITHUB_ENV
 
       - name: Run Semgrep Security Audit
         uses: returntocorp/semgrep-action@v1
