@@ -20,7 +20,7 @@ jobs:
         run: |
           pip install semgrep
 
-      - name: Run Semgrep with Auto Config
+      - name: Run Semgrep in Specific Directory
         run: |
           semgrep --config auto
 
@@ -35,15 +35,9 @@ jobs:
         run: |
           pip install checkov
 
-      - name: Run Checkov
+      - name: Run Checkov on Infrastructure Code
         run: |
-          checkov -d .
-
-      - name: Upload Checkov Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: checkov-report
-          path: checkov_report.log
+          checkov -d . --output cli
 
   gitleaks:
     name: Gitleaks Secret Scan
@@ -57,12 +51,7 @@ jobs:
           curl -sSL https://github.com/gitleaks/gitleaks/releases/latest/download/gitleaks-linux-amd64.tar.gz | tar -xz
           sudo mv gitleaks /usr/local/bin/
 
-      - name: Run Gitleaks
+      - name: Run Gitleaks in Specific Directory
         run: |
-          gitleaks detect --source=.
+          gitleaks detect --source=./secrets --config=.gitleaks.toml --report=gitleaks-report.json --no-git
 
-      - name: Upload Gitleaks Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: gitleaks-report
-          path: gitleaks-report.json
