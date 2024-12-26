@@ -10,8 +10,6 @@ on:
     secrets:
       SEMGREP_TOKEN:
         required: true
-      GIT_TOKEN:
-        required: true
 jobs:
   semgrep:
     name: Semgrep Security Scan
