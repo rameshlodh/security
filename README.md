@@ -19,3 +19,14 @@ A static code analysis tool designed for scanning Terraform and cloud infrastruc
 
 ## Note:
 **By incorporating these tools into your CI/CD pipeline, you can ensure a more secure and compliant codebase, proactively identifying potential issues before they become problems.**
+
+## How to Use:
+**Add the following code to your Action**
+![Alt text](code2.png)
+
+```jobs:
+  security-scans:
+    name: Run Security Scans
+    uses: rameshlodh/security/.github/workflows/security.yml@main
+    secrets:
+      SEMGREP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
