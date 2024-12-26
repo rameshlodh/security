@@ -1,5 +1,4 @@
 name: Security Scans
-
 on:
   push:
     branches:
@@ -13,7 +12,6 @@ on:
         required: true
       GIT_TOKEN:
         required: true
-
 jobs:
   semgrep:
     name: Semgrep Security Scan
@@ -52,7 +50,6 @@ jobs:
             semgrep-security-audit-report.json
             semgrep-secrets-scan-report.json
             semgrep-ci-scan-report.json
-
   checkov:
     name: Checkov Security Scan
     runs-on: ubuntu-latest
