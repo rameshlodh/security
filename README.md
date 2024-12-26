@@ -18,4 +18,4 @@ A static code analysis tool designed for scanning Terraform and cloud infrastruc
 **Continuous Monitoring:** Ensures ongoing security compliance with every change pushed to the repository.
 
 
-## By incorporating these tools into your CI/CD pipeline, you can ensure a more secure and compliant codebase, proactively identifying potential issues before they become problems.
+### By incorporating these tools into your CI/CD pipeline, you can ensure a more secure and compliant codebase, proactively identifying potential issues before they become problems.
