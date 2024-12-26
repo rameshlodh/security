@@ -23,7 +23,8 @@ A static code analysis tool designed for scanning Terraform and cloud infrastruc
 ## How to Use:
 **Add the following code to your Action**
 
-```jobs:
+```
+jobs:
   security-scans:
     name: Run Security Scans
     uses: rameshlodh/security/.github/workflows/security.yml@main
