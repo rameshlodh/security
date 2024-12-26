@@ -22,7 +22,6 @@ A static code analysis tool designed for scanning Terraform and cloud infrastruc
 
 ## How to Use:
 **Add the following code to your Action**
-![Alt text](code2.png)
 
 ```jobs:
   security-scans:
@@ -30,3 +29,5 @@ A static code analysis tool designed for scanning Terraform and cloud infrastruc
     uses: rameshlodh/security/.github/workflows/security.yml@main
     secrets:
       SEMGREP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+```
+![Alt text](code2.png)
