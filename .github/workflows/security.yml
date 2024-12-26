@@ -11,7 +11,7 @@ on:
     secrets:
       SEMGREP_TOKEN:
         required: true
-      GITHUB_TOKEN:
+      GIT_TOKEN:
         required: true
 
 jobs:
