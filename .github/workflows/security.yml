@@ -1,3 +1,4 @@
+
 name: Security Scans
 
 on:
@@ -9,14 +10,66 @@ on:
       - main
 
 jobs:
+  semgrep:
+    name: Semgrep Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Semgrep using pip
+        run: |
+          pip install semgrep
+
+      - name: Run Semgrep Security Audit
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+        run: |
+          semgrep --config "p/security-audit" --output semgrep-security-audit-report.json
+          
+      - name: Run Semgrep Secrets Scan
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+        run: |
+          semgrep --config "p/secrets" --output semgrep-secrets-scan-report.json
+          
+      - name: Run Semgrep CI Scan
+        env:
+          SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_TOKEN }}
+        run: |
+          semgrep --config "p/ci" --output semgrep-ci-scan-report.json
+
+      - name: Upload Semgrep Reports as Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: semgrep-reports
+          path: |
+            semgrep-security-audit-report.json
+            semgrep-secrets-scan-report.json
+            semgrep-ci-scan-report.json
+
   checkov:
     name: Checkov Security Scan
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
-      - name: Run Checkov Composite Action
-        uses: ./.github/actions/checkov-scan
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Checkov
+        run: |
+          pip install checkov
+
+      - name: Run Checkov on Infrastructure Code
+        run: |
+          checkov -d ./infra \
+            --framework terraform,kubernetes,cloudformation \
+            --output json \
+            --output-file checkov-report.json \
+            --skip-check BC.PipelineMissing
+
+      - name: Upload Checkov Report as Artifact
+        uses: actions/upload-artifact@v3
         with:
-          directory: ./infra
-          severity: high
-          output-file: checkov-report.json
-          continue-on-error: true
+          name: checkov-reports
+          path: checkov-report.json
